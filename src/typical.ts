@@ -38,7 +38,7 @@ async function edit(
   deletionSpeed: number,
   omitDeletionAnimation: boolean
 ) {
-  const nodeContent = node.textContent || '';
+  const nodeContent = node.innerHTML || '';
 
   const overlap = getOverlap(nodeContent, text);
   await perform(
@@ -87,10 +87,10 @@ async function perform(
 function* editor(edits: ReadonlyArray<string>) {
   for (const snippet of edits) {
     yield {
-      op: (node: HTMLElementTagNameMap[Wrapper]) => requestAnimationFrame(() => (node.textContent = snippet)),
+      op: (node: HTMLElementTagNameMap[Wrapper]) => requestAnimationFrame(() => (node.innerHTML = snippet)),
 
       opCode: (node: HTMLElementTagNameMap[Wrapper]) => {
-        const nodeContent = node.textContent || '';
+        const nodeContent = node.innerHTML || '';
 
         return snippet === '' || nodeContent.length > snippet.length
           ? OP_CODE_DELETION
